@@ -19,18 +19,20 @@ public abstract class Ship extends Mob{
 //		= Color.get(new int[] {-1,-1,-1}, new int[] {0,0,0}, new int[] {0,0,255}, new int[] {156,114,72});
 	private int scale = 1;
 	private int tickCount = 0;
-	private int positionX;
-	private int positionY;
+	private static int positionX;
+	private static int positionY;
 	private Screen screen;
 	private int shipId;
 	private int shipFlag;
+	private int xa = 0;
+	private int ya = 0;
+	
 	
 	// Constructor
-	public Ship(Level level, int x, int y,Screen screen, int shipID){
-		super(level, "Ship", x, y, 1);
+	public Ship(Level level, Screen screen, int shipID){
+		super(level, "Ship",generateShipPosition(),0.01);
 		this.screen = screen;
 		this.shipId = shipId;
-		generateShipPosition();
 		generateColor();
 		generateFlag();
 	}
@@ -56,34 +58,31 @@ public abstract class Ship extends Mob{
 		}
 	}
 
-	private void generateShipPosition(){
+	private static int[] generateShipPosition(){
 		Random rand = new Random();
 		int  side = rand.nextInt(4);
 		
 		if(side == 0) {
 			positionX = 0;
-			positionY = rand.nextInt(24);
+			positionY = rand.nextInt(200);
 		}
 		else if(side == 1) {
-			positionY = 24;
-			positionX = rand.nextInt(24);
+			positionY = 200;
+			positionX = rand.nextInt(200);
 		}
 		else if(side == 2) {
-			positionX = 24;
-			positionY = rand.nextInt(24);
+			positionX = 200;
+			positionY = rand.nextInt(200);
 		}
 		else if(side == 3) {
 			positionY = 0;
-			positionX = rand.nextInt(24);
+			positionX = rand.nextInt(200);
 		}
 		
 //		System.out.println("position = "+ position + "\n" + "side = " + side);
-		
+		return new int[]{positionX,positionY};
 	}
 	public void tick() {
-		int xa = 0;
-		int ya = 0;
-	    
 		if(positionX < screen.width /2) {
 			xa++;
 		}
@@ -99,6 +98,7 @@ public abstract class Ship extends Mob{
 		
 	    if(xa != 0 || ya != 0){
 	    	move(xa, ya);
+	    	System.out.println("X=" + xa + "Y=" + ya);
 	    	isMoving = true;
 	    }
 	    else{
@@ -110,6 +110,7 @@ public abstract class Ship extends Mob{
 //	    if(isSwimming && level.getTile(this.x >> 3, this.y >> 3).getId() != 3){
 //	    	isSwimming = false;
 //	    }
+	  
 	    tickCount++;
 	    this.scale = 1;
 	}
@@ -118,7 +119,7 @@ public abstract class Ship extends Mob{
 	public void render(Screen screen) {
 		int xTile = Ship_COL;
 		int yTile = Ship_ROW;
-		int walkingSpeed = 3; // The walking steps of the Ship. The real velocity don't change.
+		int walkingSpeed = 1; // The walking steps of the Ship. The real velocity don't change.
 		int flipTop = (numSteps >> walkingSpeed) & 1; // Divide numSteps by 2^(walkingSpeed). The '& 1' is to change the number between 0 and 1
 		int flipBottom = (numSteps >> walkingSpeed) & 1;;
 		
@@ -134,8 +135,8 @@ public abstract class Ship extends Mob{
 		}
 		
 		int modifier = Screen.TILE_WEIGHT * scale;
-		int xOffset = positionX - modifier / 2;
-		int yOffset = positionY - modifier / 2 - 4;
+		int xOffset = x - modifier / 2;
+		int yOffset = y - modifier / 2 - 4;
 		
 		// Render the head (2 tiles above)
 		screen.render(xOffset + (modifier * flipTop),yOffset, xTile + yTile * Screen.SPRITE_SHEET_WEIGHT, color, flipTop, scale);

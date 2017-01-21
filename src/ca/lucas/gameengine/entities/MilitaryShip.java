@@ -9,8 +9,8 @@ public class MilitaryShip extends Ship {
 	
 	public int merchantId;
 
-	public MilitaryShip(Level level, int x, int y, Screen screen) {
-		super(level, x, y, screen, 2);
+	public MilitaryShip(Level level, Screen screen) {
+		super(level, screen, 2);
 		changeFlag();
 	}
 	

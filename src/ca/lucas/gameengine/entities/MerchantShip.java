@@ -9,9 +9,10 @@ public class MerchantShip extends Ship {
 	
 	public int merchantId;
 
-	public MerchantShip(Level level, int x, int y, Screen screen) {
-		super(level, x, y, screen, 1);
+	public MerchantShip(Level level, Screen screen) {
+		super(level, screen, 1);
 		generateId();
+		tick();
 	}
 	
 	private void generateId(){

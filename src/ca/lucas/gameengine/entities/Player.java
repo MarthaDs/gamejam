@@ -19,8 +19,8 @@ public class Player extends Mob{
 	private int tickCount = 0;
 	
 	// Constructor
-	public Player(Level level, int x, int y, InputHandler input){
-		super(level, "Player", x, y, 1);
+	public Player(Level level, int[] playerPosition, InputHandler input){
+		super(level, "Player",playerPosition, 1);
 		this.input = input;
 	}
 
@@ -29,7 +29,7 @@ public class Player extends Mob{
 		int ya = 0;
 		
 		if (input.up.isPressed()) {
-            ya--;
+			ya--;
 	    }
 	    if (input.down.isPressed()) {
 	    	ya++;
@@ -102,10 +102,10 @@ public class Player extends Mob{
 		}
 		
 		// Render the head (2 tiles above)
-		screen.render(xOffset + (modifier * flipTop),yOffset, xTile + yTile * Screen.SPRITE_SHEET_WEIGHT, color, flipTop, scale);
-		screen.render(xOffset + modifier - (modifier * flipTop), yOffset, (xTile + 1) + yTile * Screen.SPRITE_SHEET_WEIGHT, color, flipTop, scale);
-		
-		// Render the body (2 tiles below) 
+	screen.render(xOffset + (modifier * flipTop),yOffset, xTile + yTile * Screen.SPRITE_SHEET_WEIGHT, color, flipTop, scale);
+	screen.render(xOffset + modifier - (modifier * flipTop), yOffset, (xTile + 1) + yTile * Screen.SPRITE_SHEET_WEIGHT, color, flipTop, scale);
+	
+//		// Render the body (2 tiles below) 
 		if(!isSwimming){
 			screen.render(xOffset + (modifier * flipBottom), yOffset + modifier, xTile + (yTile + 1) * Screen.SPRITE_SHEET_WEIGHT, color, flipBottom, scale);
 			screen.render(xOffset + modifier - (modifier * flipBottom), yOffset + modifier, (xTile + 1) + (yTile + 1) * Screen.SPRITE_SHEET_WEIGHT, color, flipBottom, scale);

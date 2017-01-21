@@ -10,8 +10,8 @@ import java.awt.image.DataBufferInt;
 
 import javax.swing.JFrame;
 
+import ca.lucas.gameengine.entities.MerchantShip;
 import ca.lucas.gameengine.entities.Player;
-import ca.lucas.gameengine.entities.Ship;
 import ca.lucas.gameengine.gfx.Screen;
 import ca.lucas.gameengine.gfx.SpriteSheet;
 import ca.lucas.gameengine.level.Level;
@@ -22,7 +22,7 @@ public class Game extends Canvas implements Runnable {
  
     public static final int WIDTH = 192;
     public static final int HEIGHT = WIDTH;
-    public static final int SCALE = 3; // Window size.
+    public static final int SCALE = 2; // Window size.
     public static final String NAME = "Game";
  
     private JFrame frame;
@@ -40,7 +40,7 @@ public class Game extends Canvas implements Runnable {
     public InputHandler input;
     public Level level;
     public Player player;
-//    public Ship ship;
+    public MerchantShip merchantShip;
  
     public Game() {
     	// Set the canvas size
@@ -82,10 +82,10 @@ public class Game extends Canvas implements Runnable {
         screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/SpriteSheet16x16.png"));
         input = new InputHandler(this);
         level = new Level("/levels/WaterTestLevel.png");
-        player = new Player(level, 0, 0, input);
-//        ship = new Ship(level, 100, 100);
+        player = new Player(level, new int[]{0,0}, input);
+        merchantShip = new MerchantShip(level,screen);
         level.addEntity(player);
-//        level.addEntity(ship);
+        level.addEntity(merchantShip);
     }
  
     // Synchronized is used to create an applet

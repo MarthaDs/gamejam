@@ -8,7 +8,7 @@ import ca.lucas.gameengine.level.tiles.Tile;
 public abstract class Mob extends Entity{
 
 	protected String name;
-	protected int speed;
+	protected double speed;
 	protected int numSteps = 0;
 	protected int movingDir = 1; // The direction of the character. For 'y' 0 is up, 1 is down
 								// for 'x' 2 is left, 3 is right
@@ -16,11 +16,11 @@ public abstract class Mob extends Entity{
 	protected int scale = 1;
 	
 	// Constructor
-	public Mob(Level level, String name, int x, int y, int speed){
+	public Mob(Level level, String name,int[] position, double speed){
 		super(level);
 		this.name = name;
-		this.x = x;
-		this.y = y;
+		this.x = position[0];
+		this.y = position[1];
 		this.speed = speed;
 	}
 	
