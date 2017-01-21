@@ -6,12 +6,12 @@ public class Screen {
 	public static final int SPRITE_SHEET_WEIGHT = 32;
 
 	// Potency that has to elevate to get the total quantity of pixels each tile has
-	public static final int TILE_PIXELS_POW = 3;
+	public static final int TILE_PIXELS_POW = 4;
 	
 	// The tile size is 8 x 8 pixels
-	public static final int TILE_WEIGHT = 8;
+	public static final int TILE_WEIGHT = 16;
 	
-	public static final int MAP_WIDTH = 64;
+	public static final int MAP_WIDTH = 256;
 	public static final int MAP_WIDTH_MASK = MAP_WIDTH - 1;
 	
 	public static final byte BIT_MIRROR_X = 0x01;
