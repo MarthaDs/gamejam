@@ -97,18 +97,18 @@ public class Player extends Mob{
 				yOffset -= 1;
 				waterColor = Color.get(new int[] {-1,-1,-1}, new int[] {100,100,250}, new int[] {50,50,250}, new int[] {-1,-1,-1});
 			}
-			screen.render(xOffset, yOffset + 3, 0 + 27 * Screen.SPRITE_SHEET_WEIGHT, waterColor, 0x00, 1);
-			screen.render(xOffset + 8, yOffset + 3, 0 + 27 * Screen.SPRITE_SHEET_WEIGHT, waterColor, 0x01, 1);
+			screen.render(xOffset, yOffset + 3, 0 + 27 * 32, waterColor, 0x00, 1);
+			screen.render(xOffset + 8, yOffset + 3, 0 + 27 * 32, waterColor, 0x01, 1);
 		}
 		
 		// Render the head (2 tiles above)
-		screen.render(xOffset + (modifier * flipTop),yOffset, xTile + yTile * Screen.SPRITE_SHEET_WEIGHT, color, flipTop, scale);
-		screen.render(xOffset + modifier - (modifier * flipTop), yOffset, (xTile + 1) + yTile * Screen.SPRITE_SHEET_WEIGHT, color, flipTop, scale);
+		screen.render(xOffset + (modifier * flipTop),yOffset, xTile + yTile * 32, color, flipTop, scale);
+		screen.render(xOffset + modifier - (modifier * flipTop), yOffset, (xTile + 1) + yTile * 32, color, flipTop, scale);
 		
 		// Render the body (2 tiles below) 
 		if(!isSwimming){
-			screen.render(xOffset + (modifier * flipBottom), yOffset + modifier, xTile + (yTile + 1) * Screen.SPRITE_SHEET_WEIGHT, color, flipBottom, scale);
-			screen.render(xOffset + modifier - (modifier * flipBottom), yOffset + modifier, (xTile + 1) + (yTile + 1) * Screen.SPRITE_SHEET_WEIGHT, color, flipBottom, scale);
+			screen.render(xOffset + (modifier * flipBottom), yOffset + modifier, xTile + (yTile + 1) * 32, color, flipBottom, scale);
+			screen.render(xOffset + modifier - (modifier * flipBottom), yOffset + modifier, (xTile + 1) + (yTile + 1) * 32, color, flipBottom, scale);
 		}
 	}
 	

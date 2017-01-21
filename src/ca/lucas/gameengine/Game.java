@@ -20,9 +20,9 @@ public class Game extends Canvas implements Runnable {
  
     private static final long serialVersionUID = 1L;
  
-    public static final int WIDTH = 192;
-    public static final int HEIGHT = WIDTH;
-    public static final int SCALE = 3; // Window size.
+    public static final int WIDTH = 160;
+    public static final int HEIGHT = WIDTH/ 12*9;
+    public static final int SCALE = 5; // Window size.
     public static final String NAME = "Game";
  
     private JFrame frame;
@@ -79,10 +79,10 @@ public class Game extends Canvas implements Runnable {
             }
         }
  
-        screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/SpriteSheet16x16.png"));
+        screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/SpriteSheet.png"));
         input = new InputHandler(this);
-        level = new Level("/levels/WaterTestLevel.png");
-        player = new Player(level, 0, 0, input);
+        level = new Level("/levels/GameLevel.png");
+        player = new Player(level, 50, 50, input);
 //        ship = new Ship(level, 100, 100);
         level.addEntity(player);
 //        level.addEntity(ship);
