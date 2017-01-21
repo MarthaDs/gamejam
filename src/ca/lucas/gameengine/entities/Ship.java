@@ -2,13 +2,15 @@ package ca.lucas.gameengine.entities;
 
 import java.util.Random;
 
+import ca.lucas.gameengine.gfx.Color;
 import ca.lucas.gameengine.gfx.Screen;
 import ca.lucas.gameengine.level.Level;
 
 public abstract class Ship extends Mob{
 	
-	// Position of the beginning of the Ship tiles
 	private static final int MOVING_BOTTOM = 1;
+	
+	// Position of the beginning of the Ship tiles
 	private static final int Ship_ROW = 28;
 	private static final int Ship_COL = 0;
 	
@@ -20,14 +22,38 @@ public abstract class Ship extends Mob{
 	private int positionX;
 	private int positionY;
 	private Screen screen;
-	
+	private int shipId;
+	private int shipFlag;
 	
 	// Constructor
-	public Ship(Level level, int x, int y,Screen screen){
+	public Ship(Level level, int x, int y,Screen screen, int shipID){
 		super(level, "Ship", x, y, 1);
 		this.screen = screen;
+		this.shipId = shipId;
 		generateShipPosition();
-		
+		generateColor();
+		generateFlag();
+	}
+	
+	private void generateFlag(){
+		Random rand = new Random();
+		if(shipId == 1){
+			
+		}
+	}
+	
+	private void generateColor(){
+		Random rand = new Random();
+		int color = rand.nextInt(3);
+		if(color == 0){
+			this.color = Color.get(new int[]{-1,-1,-1}, new int[]{0,0,255}, new int[]{0,0,191}, new int[]{0,0,127});
+		}
+		if(color == 1){
+			this.color = Color.get(new int[]{-1,-1,-1}, new int[]{0,255,0}, new int[]{0,127,0}, new int[]{0,191,0});
+		}
+		if(color == 2){
+			this.color = Color.get(new int[]{-1,-1,-1}, new int[]{255,0,0}, new int[]{191,0,0}, new int[]{127,0,0});
+		}
 	}
 
 	private void generateShipPosition(){
