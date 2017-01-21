@@ -1,46 +1,76 @@
 package ca.lucas.gameengine.entities;
 
-import ca.lucas.gameengine.InputHandler;
-import ca.lucas.gameengine.gfx.Color;
+import java.util.Random;
+
 import ca.lucas.gameengine.gfx.Screen;
 import ca.lucas.gameengine.level.Level;
 
-public class Ship extends Mob{
+public abstract class Ship extends Mob{
 	
 	// Position of the beginning of the Ship tiles
 	private static final int MOVING_BOTTOM = 1;
 	private static final int Ship_ROW = 28;
 	private static final int Ship_COL = 0;
 	
-	private InputHandler input;
-	private int color = Color.get(new int[] {-1,-1,-1}, new int[] {0,0,0}, new int[] {0,0,255}, new int[] {156,114,72});
+
+	private int color;
+//		= Color.get(new int[] {-1,-1,-1}, new int[] {0,0,0}, new int[] {0,0,255}, new int[] {156,114,72});
 	private int scale = 1;
-	protected boolean isSwimming = false; 
 	private int tickCount = 0;
+	private int positionX;
+	private int positionY;
+	private Screen screen;
+	
 	
 	// Constructor
-	public Ship(Level level, int x, int y, InputHandler input){
+	public Ship(Level level, int x, int y,Screen screen){
 		super(level, "Ship", x, y, 1);
-		this.input = input;
+		this.screen = screen;
+		generateShipPosition();
+		
 	}
 
+	private void generateShipPosition(){
+		Random rand = new Random();
+		int  side = rand.nextInt(4);
+		
+		if(side == 0) {
+			positionX = 0;
+			positionY = rand.nextInt(24);
+		}
+		else if(side == 1) {
+			positionY = 24;
+			positionX = rand.nextInt(24);
+		}
+		else if(side == 2) {
+			positionX = 24;
+			positionY = rand.nextInt(24);
+		}
+		else if(side == 3) {
+			positionY = 0;
+			positionX = rand.nextInt(24);
+		}
+		
+//		System.out.println("position = "+ position + "\n" + "side = " + side);
+		
+	}
 	public void tick() {
 		int xa = 0;
 		int ya = 0;
-		
-		if (input.up.isPressed()) {
-            ya--;
-	    }
-	    if (input.down.isPressed()) {
-	    	ya++;
-	    }
-	    if (input.left.isPressed()) {
-	    	xa--;
-	    }
-	    if (input.right.isPressed()) {
-	    	xa++;
-	    }
 	    
+		if(positionX < screen.width /2) {
+			xa++;
+		}
+		if(positionX > screen.width /2) {
+			xa--;
+		}
+		if(positionY < screen.height /2) {
+			ya++;
+		}
+		if(positionY > screen.height /2) {
+			ya--;
+		}
+		
 	    if(xa != 0 || ya != 0){
 	    	move(xa, ya);
 	    	isMoving = true;
@@ -48,12 +78,12 @@ public class Ship extends Mob{
 	    else{
 	    	isMoving = false;
 	    }
-	    if(level.getTile(this.x >> 3, this.y >> 3).getId() == 3){
-	    	isSwimming = true;
-	    }
-	    if(isSwimming && level.getTile(this.x >> 3, this.y >> 3).getId() != 3){
-	    	isSwimming = false;
-	    }
+//	    if(level.getTile(this.x >> 3, this.y >> 3).getId() == 3){
+//	    	isSwimming = true;
+//	    }
+//	    if(isSwimming && level.getTile(this.x >> 3, this.y >> 3).getId() != 3){
+//	    	isSwimming = false;
+//	    }
 	    tickCount++;
 	    this.scale = 1;
 	}
@@ -78,38 +108,17 @@ public class Ship extends Mob{
 		}
 		
 		int modifier = Screen.TILE_WEIGHT * scale;
-		int xOffset = x - modifier / 2;
-		int yOffset = y - modifier / 2 - 4;
-		if(isSwimming){
-			int waterColor = 0;
-			yOffset += 4;
-			if(tickCount % 60 < 15){
-				waterColor = Color.get(new int[] {-1,-1,-1}, new int[] {-1,-1,-1}, new int[] {100,100,250}, new int[] {-1,-1,-1});
-			}
-			else if(15 <= tickCount % 60 && tickCount % 60 < 30){
-				yOffset -= 1;
-				waterColor = Color.get(new int[] {-1,-1,-1}, new int[] {100,100,250}, new int[] {50,50,250}, new int[] {-1,-1,-1});
-			}
-			else if(30 <= tickCount % 60 && tickCount % 60 < 45){
-				waterColor = Color.get(new int[] {-1,-1,-1}, new int[] {50,50,250}, new int[] {-1,-1,-1}, new int[] {100,100,250});
-			}
-			else{
-				yOffset -= 1;
-				waterColor = Color.get(new int[] {-1,-1,-1}, new int[] {100,100,250}, new int[] {50,50,250}, new int[] {-1,-1,-1});
-			}
-			screen.render(xOffset, yOffset + 3, 0 + 27 * Screen.SPRITE_SHEET_WEIGHT, waterColor, 0x00, 1);
-			screen.render(xOffset + 8, yOffset + 3, 0 + 27 * Screen.SPRITE_SHEET_WEIGHT, waterColor, 0x01, 1);
-		}
+		int xOffset = positionX - modifier / 2;
+		int yOffset = positionY - modifier / 2 - 4;
 		
 		// Render the head (2 tiles above)
 		screen.render(xOffset + (modifier * flipTop),yOffset, xTile + yTile * Screen.SPRITE_SHEET_WEIGHT, color, flipTop, scale);
 		screen.render(xOffset + modifier - (modifier * flipTop), yOffset, (xTile + 1) + yTile * Screen.SPRITE_SHEET_WEIGHT, color, flipTop, scale);
 		
 		// Render the body (2 tiles below) 
-		if(!isSwimming){
-			screen.render(xOffset + (modifier * flipBottom), yOffset + modifier, xTile + (yTile + 1) * Screen.SPRITE_SHEET_WEIGHT, color, flipBottom, scale);
-			screen.render(xOffset + modifier - (modifier * flipBottom), yOffset + modifier, (xTile + 1) + (yTile + 1) * Screen.SPRITE_SHEET_WEIGHT, color, flipBottom, scale);
-		}
+		screen.render(xOffset + (modifier * flipBottom), yOffset + modifier, xTile + (yTile + 1) * Screen.SPRITE_SHEET_WEIGHT, color, flipBottom, scale);
+		screen.render(xOffset + modifier - (modifier * flipBottom), yOffset + modifier, (xTile + 1) + (yTile + 1) * Screen.SPRITE_SHEET_WEIGHT, color, flipBottom, scale);
+	
 	}
 	
 	// Creating a box collider

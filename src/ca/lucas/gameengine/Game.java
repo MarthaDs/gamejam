@@ -40,7 +40,7 @@ public class Game extends Canvas implements Runnable {
     public InputHandler input;
     public Level level;
     public Player player;
-    public Ship ship;
+//    public Ship ship;
  
     public Game() {
     	// Set the canvas size
@@ -83,9 +83,9 @@ public class Game extends Canvas implements Runnable {
         input = new InputHandler(this);
         level = new Level("/levels/WaterTestLevel.png");
         player = new Player(level, 0, 0, input);
-        ship = new Ship(level, 100, 100, input);
+//        ship = new Ship(level, 100, 100);
         level.addEntity(player);
-        level.addEntity(ship);
+//        level.addEntity(ship);
     }
  
     // Synchronized is used to create an applet
